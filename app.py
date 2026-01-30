@@ -18,7 +18,8 @@ app.config.from_object(Config)
 
 # Initialize extensions
 db = SQLAlchemy(app)
-socketio = SocketIO(app, cors_allowed_origins="*", async_mode='eventlet')
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading')
+
 
 # Import models after db initialization
 from models import User, Post, Story, Comment, Like, Message, ChatRoom
