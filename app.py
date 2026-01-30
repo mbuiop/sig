@@ -33,18 +33,34 @@ os.makedirs('static/uploads/profiles', exist_ok=True)
 
 def get_or_create_user(username):
     """Get existing user or create a new one with given username"""
-    user = User.query.filter_by(username=username).first()
-    if not user:
-        # Generate a unique display name
-        display_name = f"user_{username[:8]}"
+    try:
+        user = User.query.filter_by(username=username).first()
+        if not user:
+            # Generate a unique display name
+            display_name = f"کاربر {username}"
+            user = User(
+                username=username,
+                display_name=display_name,
+                joined_date=datetime.utcnow()
+            )
+            db.session.add(user)
+            db.session.commit()
+            print(f"✅ کاربر جدید ایجاد شد: {username}")
+        return user
+    except Exception as e:
+        print(f"❌ خطا در ایجاد کاربر {username}: {str(e)}")
+        # در صورت خطا، یک کاربر موقت ایجاد کنیم
         user = User(
             username=username,
-            display_name=display_name,
+            display_name=f"کاربر {username}",
             joined_date=datetime.utcnow()
         )
         db.session.add(user)
-        db.session.commit()
-    return user
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+        return user
 
 def allowed_file(filename, allowed_extensions):
     """Check if file extension is allowed"""
