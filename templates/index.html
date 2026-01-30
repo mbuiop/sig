@@ -1,0 +1,2510 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InstaClone - شبکه اجتماعی</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #0095f6;
+            --primary-hover: #0077cc;
+            --secondary: #8e8e8e;
+            --border: #dbdbdb;
+            --bg: #fafafa;
+            --card: #ffffff;
+            --text: #262626;
+            --text-light: #8e8e8e;
+            --error: #ed4956;
+            --success: #4CAF50;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1);
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            direction: rtl;
+            line-height: 1.6;
+        }
+        
+        /* Layout */
+        .app-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            padding: 15px 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+        }
+        
+        .logo i {
+            color: var(--primary);
+        }
+        
+        .search-box {
+            position: relative;
+            width: 250px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 8px 12px 8px 35px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg);
+            font-family: inherit;
+            font-size: 14px;
+        }
+        
+        .search-box i {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+        
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .nav-icon {
+            background: none;
+            border: none;
+            font-size: 22px;
+            color: var(--text);
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .badge {
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            background: var(--error);
+            color: white;
+            font-size: 10px;
+            padding: 2px 5px;
+            border-radius: 50%;
+            min-width: 16px;
+            text-align: center;
+        }
+        
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        #usernameInput {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            width: 150px;
+        }
+        
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+            margin-top: 80px;
+        }
+        
+        /* Stories */
+        .stories-section {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+        
+        .stories-container {
+            display: flex;
+            gap: 15px;
+            padding: 10px 0;
+        }
+        
+        .story {
+            flex: 0 0 auto;
+            text-align: center;
+            cursor: pointer;
+            width: 70px;
+        }
+        
+        .story-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            padding: 2px;
+            margin: 0 auto 5px;
+        }
+        
+        .story-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid white;
+            object-fit: cover;
+        }
+        
+        .story-username {
+            font-size: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* Posts */
+        .posts-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .post {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+        
+        .post-header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            gap: 12px;
+        }
+        
+        .post-user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        .post-user-info {
+            flex: 1;
+        }
+        
+        .post-username {
+            font-weight: 600;
+            display: block;
+        }
+        
+        .post-time {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+        
+        .post-menu {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .post-image {
+            width: 100%;
+            height: auto;
+            max-height: 600px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .post-actions {
+            padding: 12px 15px;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .post-action {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .post-action.liked {
+            color: var(--error);
+        }
+        
+        .post-action:hover {
+            transform: scale(1.1);
+        }
+        
+        .post-stats {
+            padding: 0 15px 10px;
+        }
+        
+        .post-likes {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .post-caption {
+            margin-bottom: 8px;
+        }
+        
+        .post-caption-user {
+            font-weight: 600;
+            margin-left: 5px;
+        }
+        
+        .view-comments {
+            color: var(--text-light);
+            font-size: 14px;
+            cursor: pointer;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .post-time-ago {
+            font-size: 12px;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+        
+        .post-comment-form {
+            display: flex;
+            border-top: 1px solid var(--border);
+            padding: 15px;
+            gap: 10px;
+        }
+        
+        .comment-input {
+            flex: 1;
+            border: none;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            background: transparent;
+        }
+        
+        .post-comment-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            opacity: 0.5;
+        }
+        
+        .post-comment-btn.active {
+            opacity: 1;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            position: sticky;
+            top: 90px;
+            height: fit-content;
+        }
+        
+        .current-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .current-user-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .user-info {
+            flex: 1;
+        }
+        
+        .sidebar-username {
+            font-weight: 600;
+            display: block;
+        }
+        
+        .sidebar-name {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        .switch-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .suggestions {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .suggestions-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .suggestions-title {
+            color: var(--text-light);
+            font-weight: 600;
+        }
+        
+        .see-all {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .suggestion {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .suggestion-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+        }
+        
+        .suggestion-info {
+            flex: 1;
+        }
+        
+        .suggestion-username {
+            font-weight: 600;
+            display: block;
+            font-size: 14px;
+        }
+        
+        .suggestion-desc {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+        
+        .follow-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        /* Footer */
+        .sidebar-footer {
+            color: var(--text-light);
+            font-size: 12px;
+            line-height: 1.8;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+        }
+        
+        .copyright {
+            font-size: 11px;
+        }
+        
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background: var(--card);
+            border-radius: var(--radius);
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: hidden;
+            animation: modalIn 0.3s ease;
+        }
+        
+        @keyframes modalIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text);
+            cursor: pointer;
+        }
+        
+        .modal-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+        
+        .btn-secondary {
+            background: var(--bg);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+        
+        /* Chat Modal */
+        .chat-modal {
+            max-width: 400px;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--text);
+            cursor: pointer;
+        }
+        
+        .chat-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+        
+        .chat-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .chat-username {
+            font-weight: 600;
+        }
+        
+        .chat-status {
+            font-size: 12px;
+            color: var(--success);
+        }
+        
+        .chat-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-action-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: var(--text);
+            cursor: pointer;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .message {
+            max-width: 70%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            font-size: 14px;
+        }
+        
+        .message-sent {
+            align-self: flex-end;
+            background: var(--primary);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .message-received {
+            align-self: flex-start;
+            background: var(--bg);
+            color: var(--text);
+            border-bottom-left-radius: 5px;
+        }
+        
+        .typing-indicator {
+            padding: 10px;
+            color: var(--text-light);
+            font-size: 12px;
+            display: none;
+        }
+        
+        .chat-input-container {
+            padding: 15px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .chat-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bg);
+            border-radius: 25px;
+            padding: 10px 15px;
+        }
+        
+        .chat-input-field {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .chat-send-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        /* Explore Grid */
+        .explore-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3px;
+        }
+        
+        .explore-item {
+            aspect-ratio: 1;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .explore-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .explore-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-light);
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            left: 20px;
+            background: var(--text);
+            color: white;
+            padding: 15px;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 3000;
+            animation: toastIn 0.3s ease;
+        }
+        
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .toast.success {
+            background: var(--success);
+        }
+        
+        .toast.error {
+            background: var(--error);
+        }
+        
+        .toast-icon {
+            font-size: 20px;
+        }
+        
+        /* Mobile Nav */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card);
+            border-top: 1px solid var(--border);
+            padding: 10px 0;
+            z-index: 1000;
+        }
+        
+        .mobile-nav-container {
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 10px;
+        }
+        
+        .mobile-nav-item i {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+            
+            .header-container {
+                padding: 0 10px;
+            }
+            
+            .search-box {
+                display: none;
+            }
+            
+            .mobile-nav {
+                display: block;
+            }
+            
+            .modal {
+                padding: 10px;
+            }
+        }
+        
+        /* Stories Viewer */
+        .story-viewer {
+            max-width: 350px;
+            height: 600px;
+        }
+        
+        .story-media {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: var(--radius);
+        }
+        
+        /* Comments Modal */
+        .comments-modal {
+            max-width: 500px;
+        }
+        
+        .comments-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .comment {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .comment:last-child {
+            border-bottom: none;
+        }
+        
+        .comment-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+        
+        .comment-content {
+            flex: 1;
+        }
+        
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .comment-username {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .comment-time {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+        
+        .comment-text {
+            font-size: 14px;
+        }
+        
+        .add-comment {
+            margin-top: 20px;
+        }
+        
+        .add-comment-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            margin-bottom: 10px;
+        }
+        
+        /* Create Post Modal */
+        .create-post-modal {
+            max-width: 600px;
+        }
+        
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: var(--radius);
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: var(--bg);
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+        
+        .post-preview {
+            display: none;
+            margin-bottom: 20px;
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+        
+        .post-preview img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .caption-input {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-camera"></i>
+                <span>InstaClone</span>
+            </a>
+            
+            <div class="search-box">
+                <input type="text" id="globalSearch" placeholder="جستجو...">
+                <i class="fas fa-search"></i>
+                <div id="searchResults" style="display: none; position: absolute; top: 100%; background: white; border: 1px solid var(--border); border-radius: 8px; width: 100%; margin-top: 5px;"></div>
+            </div>
+            
+            <div class="nav-icons">
+                <button class="nav-icon" id="homeBtn">
+                    <i class="fas fa-home"></i>
+                </button>
+                <button class="nav-icon" id="chatBtn">
+                    <i class="fas fa-comment-alt"></i>
+                    <span class="badge" id="chatBadge">0</span>
+                </button>
+                <button class="nav-icon" id="exploreBtn">
+                    <i class="fas fa-compass"></i>
+                </button>
+                <button class="nav-icon" id="notificationsBtn">
+                    <i class="fas fa-heart"></i>
+                    <span class="badge" id="notificationBadge">0</span>
+                </button>
+                <button class="nav-icon" id="createBtn">
+                    <i class="fas fa-plus-square"></i>
+                </button>
+            </div>
+            
+            <div class="user-section">
+                <input type="text" id="usernameInput" placeholder="نام کاربری" value="user1">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="app-container">
+        <div class="main-content">
+            <!-- Left Column (Posts) -->
+            <div class="left-column">
+                <!-- Stories -->
+                <div class="stories-section">
+                    <div class="stories-container" id="storiesContainer">
+                        <!-- Stories will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Posts Feed -->
+                <div class="posts-container" id="postsContainer">
+                    <!-- Posts will be loaded here -->
+                </div>
+            </div>
+            
+            <!-- Right Column (Sidebar) -->
+            <div class="sidebar">
+                <!-- Current User -->
+                <div class="current-user">
+                    <div class="current-user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-info">
+                        <span class="sidebar-username" id="sidebarUsername">user1</span>
+                        <span class="sidebar-name">کاربر InstaClone</span>
+                    </div>
+                    <button class="switch-btn">تغییر</button>
+                </div>
+                
+                <!-- Suggestions -->
+                <div class="suggestions">
+                    <div class="suggestions-header">
+                        <span class="suggestions-title">پیشنهاد برای شما</span>
+                        <button class="see-all">مشاهده همه</button>
+                    </div>
+                    <div id="suggestionsList">
+                        <!-- Suggestions will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Footer -->
+                <div class="sidebar-footer">
+                    <div class="footer-links">
+                        <a href="#">درباره</a>
+                        <a href="#">راهنما</a>
+                        <a href="#">حریم خصوصی</a>
+                        <a href="#">قوانین</a>
+                        <a href="#">زبان</a>
+                    </div>
+                    <div class="copyright">
+                        © 2024 InstaClone
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav">
+        <div class="mobile-nav-container">
+            <a href="#" class="mobile-nav-item active" id="mobileHomeBtn">
+                <i class="fas fa-home"></i>
+                <span>خانه</span>
+            </a>
+            <a href="#" class="mobile-nav-item" id="mobileExploreBtn">
+                <i class="fas fa-compass"></i>
+                <span>اکسپلور</span>
+            </a>
+            <a href="#" class="mobile-nav-item" id="mobileCreateBtn">
+                <i class="fas fa-plus-square"></i>
+                <span>ایجاد</span>
+            </a>
+            <a href="#" class="mobile-nav-item" id="mobileNotificationsBtn">
+                <i class="fas fa-heart"></i>
+                <span>اعلان‌ها</span>
+            </a>
+            <a href="#" class="mobile-nav-item" id="mobileProfileBtn">
+                <i class="fas fa-user"></i>
+                <span>پروفایل</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Modals -->
+    
+    <!-- Create Post Modal -->
+    <div class="modal" id="createPostModal">
+        <div class="modal-content create-post-modal">
+            <div class="modal-header">
+                <h3 class="modal-title">ایجاد پست جدید</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <p>عکس یا ویدیو را اینجا رها کنید</p>
+                    <button class="btn btn-primary" onclick="document.getElementById('postImageInput').click()">
+                        انتخاب از کامپیوتر
+                    </button>
+                    <input type="file" id="postImageInput" accept="image/*" style="display: none;">
+                </div>
+                <div class="post-preview" id="postPreview"></div>
+                <textarea class="caption-input" id="postCaption" placeholder="کپشن بنویسید..."></textarea>
+                <div class="add-comment">
+                    <input type="text" class="add-comment-input" placeholder="مکان (اختیاری)">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary close-modal">لغو</button>
+                <button class="btn btn-primary" id="submitPostBtn" disabled>اشتراک‌گذاری</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Story Modal -->
+    <div class="modal" id="createStoryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">ایجاد استوری</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="upload-area">
+                    <div class="upload-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <p>عکس یا ویدیو برای استوری</p>
+                    <button class="btn btn-primary" onclick="document.getElementById('storyMediaInput').click()">
+                        انتخاب فایل
+                    </button>
+                    <input type="file" id="storyMediaInput" accept="image/*,video/*" style="display: none;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Modal -->
+    <div class="modal" id="chatModal">
+        <div class="modal-content chat-modal">
+            <div class="chat-header">
+                <button class="back-btn" onclick="closeChat()">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <div class="chat-user">
+                    <div class="chat-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <div class="chat-username" id="chatWithUser">کاربر</div>
+                        <div class="chat-status" id="chatStatus">آنلاین</div>
+                    </div>
+                </div>
+                <div class="chat-actions">
+                    <button class="chat-action-btn">
+                        <i class="fas fa-phone"></i>
+                    </button>
+                    <button class="chat-action-btn">
+                        <i class="fas fa-video"></i>
+                    </button>
+                    <button class="chat-action-btn">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will appear here -->
+            </div>
+            <div class="typing-indicator" id="typingIndicator">
+                <span id="typingUser"></span> در حال تایپ...
+            </div>
+            <div class="chat-input-container">
+                <div class="chat-input">
+                    <input type="text" class="chat-input-field" id="chatMessageInput" placeholder="پیام...">
+                    <button class="chat-send-btn" id="sendMessageBtn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Users List Modal (for chat) -->
+    <div class="modal" id="usersModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">پیام‌ها</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="usersList">
+                    <!-- Users will appear here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Story Viewer Modal -->
+    <div class="modal" id="storyViewerModal">
+        <div class="modal-content story-viewer">
+            <div class="modal-header">
+                <div class="chat-user">
+                    <div class="chat-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <div class="chat-username" id="storyUsername">کاربر</div>
+                        <div class="chat-status" id="storyTime">۲ ساعت پیش</div>
+                    </div>
+                </div>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <img class="story-media" id="storyMedia" src="" alt="Story">
+            </div>
+        </div>
+    </div>
+
+    <!-- Comments Modal -->
+    <div class="modal" id="commentsModal">
+        <div class="modal-content comments-modal">
+            <div class="modal-header">
+                <h3 class="modal-title">نظرات</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="comments-list" id="commentsList">
+                    <!-- Comments will appear here -->
+                </div>
+                <div class="add-comment">
+                    <input type="text" class="add-comment-input" id="newCommentInput" placeholder="نظر خود را بنویسید...">
+                    <button class="btn btn-primary" id="submitCommentBtn" disabled>ارسال</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Explore Modal -->
+    <div class="modal" id="exploreModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="search-box" style="flex: 1;">
+                    <input type="text" id="exploreSearch" placeholder="جستجو در اکسپلور...">
+                    <i class="fas fa-search"></i>
+                </div>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="explore-grid" id="exploreGrid">
+                    <!-- Explore content will appear here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div class="modal" id="profileModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="profileTitle">پروفایل</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="profileContent">
+                    <!-- Profile content will appear here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+    <script>
+        // Global variables
+        let currentUser = 'user1';
+        let socket = null;
+        let currentChatUser = null;
+        let currentPostComments = null;
+        let typingTimeout = null;
+        
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Initializing InstaClone...');
+            
+            // Initialize user
+            initUser();
+            
+            // Load initial data
+            loadData();
+            
+            // Setup event listeners
+            setupEventListeners();
+            
+            // Connect to WebSocket
+            connectSocket();
+            
+            console.log('✅ InstaClone initialized');
+        });
+        
+        function initUser() {
+            const usernameInput = document.getElementById('usernameInput');
+            const sidebarUsername = document.getElementById('sidebarUsername');
+            
+            // Get saved username
+            const savedUsername = localStorage.getItem('instaclone_username');
+            if (savedUsername) {
+                currentUser = savedUsername;
+                usernameInput.value = currentUser;
+                sidebarUsername.textContent = currentUser;
+            }
+            
+            // Update username
+            usernameInput.addEventListener('change', function() {
+                if (this.value.trim()) {
+                    currentUser = this.value.trim();
+                    localStorage.setItem('instaclone_username', currentUser);
+                    sidebarUsername.textContent = currentUser;
+                    
+                    // Reinitialize with new username
+                    initApp();
+                }
+            });
+        }
+        
+        function initApp() {
+            fetch('/api/init', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username: currentUser })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('✅ App initialized for user:', currentUser);
+                    showToast('خوش آمدید ' + currentUser, 'success');
+                }
+            })
+            .catch(error => {
+                console.error('❌ Error initializing app:', error);
+            });
+        }
+        
+        function loadData() {
+            // Load posts
+            loadPosts();
+            
+            // Load stories
+            loadStories();
+            
+            // Load suggestions
+            loadSuggestions();
+            
+            // Initialize app
+            initApp();
+        }
+        
+        function loadPosts() {
+            const postsContainer = document.getElementById('postsContainer');
+            postsContainer.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>در حال بارگذاری پست‌ها...</p>
+                </div>
+            `;
+            
+            fetch('/api/posts')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.posts.length > 0) {
+                        renderPosts(data.posts);
+                    } else {
+                        postsContainer.innerHTML = `
+                            <div class="loading">
+                                <i class="fas fa-camera" style="font-size: 48px; margin-bottom: 20px;"></i>
+                                <p>هنوز پستی وجود ندارد</p>
+                                <button class="btn btn-primary" onclick="openCreatePost()" style="margin-top: 20px;">
+                                    اولین پست را ایجاد کنید
+                                </button>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading posts:', error);
+                    postsContainer.innerHTML = '<p class="error">خطا در بارگذاری پست‌ها</p>';
+                });
+        }
+        
+        function renderPosts(posts) {
+            const postsContainer = document.getElementById('postsContainer');
+            postsContainer.innerHTML = '';
+            
+            posts.forEach(post => {
+                const postTime = formatTimeAgo(new Date(post.created_at));
+                const isLiked = post.is_liked ? 'liked' : '';
+                
+                const postHTML = `
+                    <div class="post" data-post-id="${post.id}">
+                        <div class="post-header">
+                            <div class="post-user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="post-user-info">
+                                <span class="post-username">${post.display_name}</span>
+                                <span class="post-time">${postTime}</span>
+                            </div>
+                            <button class="post-menu">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
+                        
+                        <img src="${post.image_url}" alt="Post image" class="post-image" 
+                             onerror="this.src='https://via.placeholder.com/600x600/cccccc/969696?text=تصویر+پست'">
+                        
+                        <div class="post-actions">
+                            <button class="post-action like-btn ${isLiked}" data-post-id="${post.id}">
+                                <i class="${post.is_liked ? 'fas' : 'far'} fa-heart"></i>
+                            </button>
+                            <button class="post-action comment-btn" data-post-id="${post.id}">
+                                <i class="far fa-comment"></i>
+                            </button>
+                            <button class="post-action share-btn" data-post-id="${post.id}">
+                                <i class="far fa-paper-plane"></i>
+                            </button>
+                            <button class="post-action save-btn">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="post-stats">
+                            <div class="post-likes">${post.likes_count.toLocaleString('fa-IR')} لایک</div>
+                            <div class="post-caption">
+                                <span class="post-caption-user">${post.display_name}</span>
+                                ${post.caption || ''}
+                            </div>
+                            <a href="#" class="view-comments" data-post-id="${post.id}">
+                                مشاهده ${post.comments_count.toLocaleString('fa-IR')} نظر
+                            </a>
+                            <div class="post-time-ago">${postTime}</div>
+                        </div>
+                        
+                        <div class="post-comment-form">
+                            <input type="text" class="comment-input" placeholder="افزودن نظر..." data-post-id="${post.id}">
+                            <button class="post-comment-btn" data-post-id="${post.id}" disabled>ارسال</button>
+                        </div>
+                    </div>
+                `;
+                
+                postsContainer.innerHTML += postHTML;
+            });
+            
+            // Add event listeners
+            setupPostEvents();
+        }
+        
+        function loadStories() {
+            const storiesContainer = document.getElementById('storiesContainer');
+            
+            fetch('/api/stories')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        renderStories(data.stories);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading stories:', error);
+                });
+        }
+        
+        function renderStories(stories) {
+            const storiesContainer = document.getElementById('storiesContainer');
+            storiesContainer.innerHTML = '';
+            
+            // Add create story button
+            storiesContainer.innerHTML += `
+                <div class="story" onclick="openCreateStory()">
+                    <div class="story-avatar" style="background: var(--border);">
+                        <i class="fas fa-plus" style="font-size: 24px; color: var(--text); background: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"></i>
+                    </div>
+                    <div class="story-username">استوری شما</div>
+                </div>
+            `;
+            
+            // Add user stories
+            stories.forEach(storyGroup => {
+                if (storyGroup.stories && storyGroup.stories.length > 0) {
+                    const story = storyGroup.stories[0];
+                    storiesContainer.innerHTML += `
+                        <div class="story" onclick="viewStory('${storyGroup.user.username}')">
+                            <div class="story-avatar">
+                                <i class="fas fa-user" style="width: 60px; height: 60px; border-radius: 50%; background: white; display: flex; align-items: center; justify-content: center; color: var(--text);"></i>
+                            </div>
+                            <div class="story-username">${storyGroup.user.display_name}</div>
+                        </div>
+                    `;
+                }
+            });
+        }
+        
+        function loadSuggestions() {
+            const suggestionsList = document.getElementById('suggestionsList');
+            
+            fetch(`/api/users/search?q=`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.users.length > 0) {
+                        renderSuggestions(data.users.slice(0, 5));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading suggestions:', error);
+                });
+        }
+        
+        function renderSuggestions(users) {
+            const suggestionsList = document.getElementById('suggestionsList');
+            suggestionsList.innerHTML = '';
+            
+            users.forEach(user => {
+                if (user.username !== currentUser) {
+                    suggestionsList.innerHTML += `
+                        <div class="suggestion">
+                            <div class="suggestion-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="suggestion-info">
+                                <span class="suggestion-username">${user.display_name}</span>
+                                <span class="suggestion-desc">پیشنهاد شده برای شما</span>
+                            </div>
+                            <button class="follow-btn" onclick="followUser('${user.username}', this)">دنبال کردن</button>
+                        </div>
+                    `;
+                }
+            });
+        }
+        
+        function setupEventListeners() {
+            // Navigation buttons
+            document.getElementById('homeBtn').addEventListener('click', () => loadData());
+            document.getElementById('chatBtn').addEventListener('click', openChatList);
+            document.getElementById('exploreBtn').addEventListener('click', openExplore);
+            document.getElementById('notificationsBtn').addEventListener('click', showNotifications);
+            document.getElementById('createBtn').addEventListener('click', openCreatePost);
+            
+            // Mobile navigation
+            document.getElementById('mobileHomeBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                loadData();
+            });
+            document.getElementById('mobileExploreBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                openExplore();
+            });
+            document.getElementById('mobileCreateBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                openCreatePost();
+            });
+            document.getElementById('mobileNotificationsBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                showNotifications();
+            });
+            document.getElementById('mobileProfileBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                openProfile(currentUser);
+            });
+            
+            // Create post modal
+            document.getElementById('postImageInput').addEventListener('change', handlePostImageSelect);
+            document.getElementById('submitPostBtn').addEventListener('click', createPost);
+            
+            // Story modal
+            document.getElementById('storyMediaInput').addEventListener('change', handleStoryMediaSelect);
+            
+            // Search
+            document.getElementById('globalSearch').addEventListener('input', debounce(searchUsers, 300));
+            
+            // Close modals when clicking outside
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Close buttons
+            document.querySelectorAll('.close-modal').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.closest('.modal').style.display = 'none';
+                });
+            });
+            
+            // Chat
+            document.getElementById('sendMessageBtn').addEventListener('click', sendChatMessage);
+            document.getElementById('chatMessageInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    sendChatMessage();
+                }
+            });
+            
+            // Comments
+            document.getElementById('submitCommentBtn').addEventListener('click', submitComment);
+            document.getElementById('newCommentInput').addEventListener('input', function() {
+                document.getElementById('submitCommentBtn').disabled = !this.value.trim();
+            });
+        }
+        
+        function setupPostEvents() {
+            // Like buttons
+            document.querySelectorAll('.like-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const postId = this.dataset.postId;
+                    toggleLike(postId, this);
+                });
+            });
+            
+            // Comment buttons
+            document.querySelectorAll('.comment-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const postId = this.dataset.postId;
+                    openComments(postId);
+                });
+            });
+            
+            // View comments links
+            document.querySelectorAll('.view-comments').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const postId = this.dataset.postId;
+                    openComments(postId);
+                });
+            });
+            
+            // Comment input
+            document.querySelectorAll('.comment-input').forEach(input => {
+                input.addEventListener('input', function() {
+                    const postId = this.dataset.postId;
+                    const btn = document.querySelector(`.post-comment-btn[data-post-id="${postId}"]`);
+                    btn.disabled = !this.value.trim();
+                });
+                
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' && this.value.trim()) {
+                        e.preventDefault();
+                        const postId = this.dataset.postId;
+                        addComment(postId, this.value.trim());
+                        this.value = '';
+                        const btn = document.querySelector(`.post-comment-btn[data-post-id="${postId}"]`);
+                        btn.disabled = true;
+                    }
+                });
+            });
+            
+            // Comment submit buttons
+            document.querySelectorAll('.post-comment-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const postId = this.dataset.postId;
+                    const input = document.querySelector(`.comment-input[data-post-id="${postId}"]`);
+                    if (input && input.value.trim()) {
+                        addComment(postId, input.value.trim());
+                        input.value = '';
+                        this.disabled = true;
+                    }
+                });
+            });
+        }
+        
+        // ============ POST FUNCTIONS ============
+        function toggleLike(postId, button) {
+            fetch(`/api/posts/${postId}/like`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username: currentUser })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update button
+                    const icon = button.querySelector('i');
+                    if (data.is_liked) {
+                        button.classList.add('liked');
+                        icon.classList.remove('far');
+                        icon.classList.add('fas');
+                        
+                        // Animation
+                        button.style.transform = 'scale(1.3)';
+                        setTimeout(() => button.style.transform = 'scale(1)', 300);
+                    } else {
+                        button.classList.remove('liked');
+                        icon.classList.remove('fas');
+                        icon.classList.add('far');
+                    }
+                    
+                    // Update likes count
+                    const postElement = button.closest('.post');
+                    const likesCount = postElement.querySelector('.post-likes');
+                    likesCount.textContent = `${data.likes_count.toLocaleString('fa-IR')} لایک`;
+                    
+                    showToast(data.is_liked ? 'لایک شد' : 'لایک برداشته شد', 'success');
+                }
+            })
+            .catch(error => {
+                console.error('Error toggling like:', error);
+                showToast('خطا در لایک کردن', 'error');
+            });
+        }
+        
+        function addComment(postId, text) {
+            fetch(`/api/posts/${postId}/comments`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: currentUser,
+                    text: text
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update comments count
+                    const postElement = document.querySelector(`.post[data-post-id="${postId}"]`);
+                    if (postElement) {
+                        const commentsLink = postElement.querySelector('.view-comments');
+                        const match = commentsLink.textContent.match(/\d+/);
+                        const currentCount = match ? parseInt(match[0].replace(/[٠-٩]/g, d => d.charCodeAt(0) - 1632)) : 0;
+                        commentsLink.textContent = `مشاهده ${(currentCount + 1).toLocaleString('fa-IR')} نظر`;
+                    }
+                    
+                    showToast('نظر شما ثبت شد', 'success');
+                    
+                    // If comments modal is open, refresh it
+                    if (currentPostComments === postId) {
+                        loadComments(postId);
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error adding comment:', error);
+                showToast('خطا در ثبت نظر', 'error');
+            });
+        }
+        
+        function openComments(postId) {
+            currentPostComments = postId;
+            document.getElementById('commentsModal').style.display = 'flex';
+            loadComments(postId);
+        }
+        
+        function loadComments(postId) {
+            const commentsList = document.getElementById('commentsList');
+            commentsList.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>در حال بارگذاری نظرات...</p>
+                </div>
+            `;
+            
+            fetch(`/api/posts/${postId}/comments`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        renderComments(data.comments);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading comments:', error);
+                    commentsList.innerHTML = '<p class="error">خطا در بارگذاری نظرات</p>';
+                });
+        }
+        
+        function renderComments(comments) {
+            const commentsList = document.getElementById('commentsList');
+            commentsList.innerHTML = '';
+            
+            if (comments.length === 0) {
+                commentsList.innerHTML = '<p style="text-align: center; color: var(--text-light); padding: 20px;">هنوز نظری وجود ندارد</p>';
+                return;
+            }
+            
+            comments.forEach(comment => {
+                const timeAgo = formatTimeAgo(new Date(comment.created_at));
+                commentsList.innerHTML += `
+                    <div class="comment">
+                        <div class="comment-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="comment-content">
+                            <div class="comment-header">
+                                <span class="comment-username">${comment.display_name}</span>
+                                <span class="comment-time">${timeAgo}</span>
+                            </div>
+                            <div class="comment-text">${comment.text}</div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        
+        function submitComment() {
+            const input = document.getElementById('newCommentInput');
+            if (input.value.trim() && currentPostComments) {
+                addComment(currentPostComments, input.value.trim());
+                input.value = '';
+                document.getElementById('submitCommentBtn').disabled = true;
+            }
+        }
+        
+        // ============ CREATE POST ============
+        function openCreatePost() {
+            document.getElementById('createPostModal').style.display = 'flex';
+            document.getElementById('postCaption').value = '';
+            document.getElementById('postPreview').innerHTML = '';
+            document.getElementById('postPreview').style.display = 'none';
+            document.getElementById('uploadArea').style.display = 'block';
+            document.getElementById('submitPostBtn').disabled = true;
+        }
+        
+        function handlePostImageSelect(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            if (!file.type.startsWith('image/')) {
+                showToast('فقط فایل‌های تصویری مجاز هستند', 'error');
+                return;
+            }
+            
+            if (file.size > 10 * 1024 * 1024) {
+                showToast('حجم فایل باید کمتر از ۱۰ مگابایت باشد', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const preview = document.getElementById('postPreview');
+                preview.innerHTML = `<img src="${event.target.result}" alt="Preview">`;
+                preview.style.display = 'block';
+                document.getElementById('uploadArea').style.display = 'none';
+                document.getElementById('submitPostBtn').disabled = false;
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function createPost() {
+            const fileInput = document.getElementById('postImageInput');
+            const caption = document.getElementById('postCaption').value.trim();
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                showToast('لطفاً یک عکس انتخاب کنید', 'error');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('username', currentUser);
+            formData.append('caption', caption);
+            formData.append('image', file);
+            
+            // Show loading
+            const submitBtn = document.getElementById('submitPostBtn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال ارسال...';
+            submitBtn.disabled = true;
+            
+            fetch('/api/posts/create', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Close modal
+                    document.getElementById('createPostModal').style.display = 'none';
+                    
+                    // Reset form
+                    fileInput.value = '';
+                    
+                    // Reload posts
+                    loadPosts();
+                    
+                    showToast('پست با موفقیت منتشر شد', 'success');
+                    
+                    // Emit socket event
+                    if (socket) {
+                        socket.emit('new_post', {
+                            username: currentUser,
+                            post_id: data.post.id
+                        });
+                    }
+                } else {
+                    showToast(data.error || 'خطا در انتشار پست', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error creating post:', error);
+                showToast('خطا در انتشار پست', 'error');
+            })
+            .finally(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            });
+        }
+        
+        // ============ STORIES ============
+        function openCreateStory() {
+            document.getElementById('createStoryModal').style.display = 'flex';
+        }
+        
+        function handleStoryMediaSelect(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
+                showToast('فقط فایل‌های تصویری و ویدیویی مجاز هستند', 'error');
+                return;
+            }
+            
+            if (file.size > 20 * 1024 * 1024) {
+                showToast('حجم فایل باید کمتر از ۲۰ مگابایت باشد', 'error');
+                return;
+            }
+            
+            uploadStory(file);
+        }
+        
+        function uploadStory(file) {
+            const formData = new FormData();
+            formData.append('username', currentUser);
+            formData.append('media', file);
+            
+            fetch('/api/stories/create', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('createStoryModal').style.display = 'none';
+                    loadStories();
+                    showToast('استوری با موفقیت منتشر شد', 'success');
+                } else {
+                    showToast(data.error || 'خطا در انتشار استوری', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error uploading story:', error);
+                showToast('خطا در انتشار استوری', 'error');
+            });
+        }
+        
+        function viewStory(username) {
+            // در نسخه واقعی، این قسمت استوری‌های کاربر را نشان می‌دهد
+            // برای نمونه، فقط یک پیام نشان می‌دهیم
+            showToast(`مشاهده استوری ${username}`, 'info');
+        }
+        
+        // ============ CHAT ============
+        function connectSocket() {
+            socket = io();
+            
+            socket.on('connect', function() {
+                console.log('✅ Connected to WebSocket');
+            });
+            
+            socket.on('new_message', function(data) {
+                if (currentChatUser === data.sender) {
+                    receiveMessage(data.sender, data.message);
+                } else {
+                    // Show notification
+                    updateChatBadge(1);
+                    showToast(`پیام جدید از ${data.sender}`, 'info');
+                }
+            });
+            
+            socket.on('user_typing', function(data) {
+                if (currentChatUser === data.username) {
+                    const indicator = document.getElementById('typingIndicator');
+                    const typingUser = document.getElementById('typingUser');
+                    if (data.is_typing) {
+                        typingUser.textContent = data.username;
+                        indicator.style.display = 'block';
+                    } else {
+                        indicator.style.display = 'none';
+                    }
+                }
+            });
+        }
+        
+        function openChatList() {
+            document.getElementById('usersModal').style.display = 'flex';
+            loadChatUsers();
+        }
+        
+        function loadChatUsers() {
+            const usersList = document.getElementById('usersList');
+            usersList.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>در حال بارگذاری کاربران...</p>
+                </div>
+            `;
+            
+            fetch(`/api/chat/users?username=${currentUser}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        renderChatUsers(data.users);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading chat users:', error);
+                    usersList.innerHTML = '<p class="error">خطا در بارگذاری کاربران</p>';
+                });
+        }
+        
+        function renderChatUsers(users) {
+            const usersList = document.getElementById('usersList');
+            usersList.innerHTML = '';
+            
+            if (users.length === 0) {
+                usersList.innerHTML = '<p style="text-align: center; padding: 20px; color: var(--text-light);">هیچ کاربری برای چت وجود ندارد</p>';
+                return;
+            }
+            
+            users.forEach(user => {
+                usersList.innerHTML += `
+                    <div class="suggestion" style="cursor: pointer;" onclick="startChat('${user.username}')">
+                        <div class="suggestion-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="suggestion-info">
+                            <span class="suggestion-username">${user.display_name}</span>
+                            <span class="suggestion-desc">@${user.username}</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        
+        function startChat(username) {
+            currentChatUser = username;
+            document.getElementById('usersModal').style.display = 'none';
+            document.getElementById('chatModal').style.display = 'flex';
+            document.getElementById('chatWithUser').textContent = username;
+            document.getElementById('chatMessageInput').value = '';
+            document.getElementById('chatMessages').innerHTML = '';
+            
+            // Load messages
+            loadChatMessages(username);
+            
+            // Join chat room
+            if (socket) {
+                socket.emit('join_chat', {
+                    username: currentUser,
+                    room: getChatRoom(currentUser, username)
+                });
+            }
+        }
+        
+        function closeChat() {
+            currentChatUser = null;
+            document.getElementById('chatModal').style.display = 'none';
+        }
+        
+        function loadChatMessages(username) {
+            const chatMessages = document.getElementById('chatMessages');
+            
+            fetch(`/api/chat/messages?user1=${currentUser}&user2=${username}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        renderChatMessages(data.messages);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading messages:', error);
+                });
+        }
+        
+        function renderChatMessages(messages) {
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = '';
+            
+            if (messages.length === 0) {
+                chatMessages.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--text-light);">
+                        <i class="fas fa-comments" style="font-size: 48px; margin-bottom: 20px;"></i>
+                        <p>هنوز پیامی رد و بدل نشده است</p>
+                        <p>اولین پیام را شما ارسال کنید!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            messages.forEach(msg => {
+                const messageClass = msg.sender === currentUser ? 'message-sent' : 'message-received';
+                chatMessages.innerHTML += `
+                    <div class="message ${messageClass}">
+                        ${msg.content}
+                    </div>
+                `;
+            });
+            
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function sendChatMessage() {
+            const input = document.getElementById('chatMessageInput');
+            const message = input.value.trim();
+            
+            if (!message || !currentChatUser) return;
+            
+            // Add to UI immediately
+            const chatMessages = document.getElementById('chatMessages');
+            const noMessages = chatMessages.querySelector('.fa-comments');
+            if (noMessages) {
+                chatMessages.innerHTML = '';
+            }
+            
+            chatMessages.innerHTML += `
+                <div class="message message-sent">
+                    ${message}
+                </div>
+            `;
+            
+            // Send via API
+            fetch('/api/chat/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    sender: currentUser,
+                    receiver: currentChatUser,
+                    content: message
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && socket) {
+                    // Send via WebSocket
+                    socket.emit('send_chat_message', {
+                        room: getChatRoom(currentUser, currentChatUser),
+                        sender: currentUser,
+                        message: message
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error sending message:', error);
+            });
+            
+            // Clear input
+            input.value = '';
+            
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function receiveMessage(sender, message) {
+            const chatMessages = document.getElementById('chatMessages');
+            const noMessages = chatMessages.querySelector('.fa-comments');
+            if (noMessages) {
+                chatMessages.innerHTML = '';
+            }
+            
+            chatMessages.innerHTML += `
+                <div class="message message-received">
+                    ${message}
+                </div>
+            `;
+            
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function getChatRoom(user1, user2) {
+            // Create consistent room name
+            return [user1, user2].sort().join('_');
+        }
+        
+        function updateChatBadge(count) {
+            const badge = document.getElementById('chatBadge');
+            const current = parseInt(badge.textContent) || 0;
+            badge.textContent = current + count;
+            badge.style.display = 'block';
+        }
+        
+        // ============ EXPLORE ============
+        function openExplore() {
+            document.getElementById('exploreModal').style.display = 'flex';
+            loadExploreContent();
+        }
+        
+        function loadExploreContent() {
+            // در نسخه واقعی، این قسمت پست‌های اکسپلور را لود می‌کند
+            const exploreGrid = document.getElementById('exploreGrid');
+            exploreGrid.innerHTML = '';
+            
+            // Add sample images
+            for (let i = 0; i < 9; i++) {
+                exploreGrid.innerHTML += `
+                    <div class="explore-item">
+                        <img src="https://picsum.photos/400/400?random=${i}" alt="Explore">
+                    </div>
+                `;
+            }
+        }
+        
+        // ============ PROFILE ============
+        function openProfile(username) {
+            document.getElementById('profileModal').style.display = 'flex';
+            document.getElementById('profileTitle').textContent = `پروفایل ${username}`;
+            loadProfile(username);
+        }
+        
+        function loadProfile(username) {
+            const profileContent = document.getElementById('profileContent');
+            profileContent.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>در حال بارگذاری پروفایل...</p>
+                </div>
+            `;
+            
+            fetch(`/api/users/${username}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        renderProfile(data.user, data.posts);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading profile:', error);
+                    profileContent.innerHTML = '<p class="error">خطا در بارگذاری پروفایل</p>';
+                });
+        }
+        
+        function renderProfile(user, posts) {
+            const profileContent = document.getElementById('profileContent');
+            
+            let postsHTML = '';
+            if (posts && posts.length > 0) {
+                postsHTML = `
+                    <div class="explore-grid" style="margin-top: 20px;">
+                        ${posts.map(post => `
+                            <div class="explore-item">
+                                <img src="${post.image_url}" alt="Post" onerror="this.src='https://picsum.photos/400/400'">
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            profileContent.innerHTML = `
+                <div style="text-align: center; padding: 20px;">
+                    <div class="current-user-avatar" style="width: 80px; height: 80px; margin: 0 auto 15px; font-size: 32px;">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>${user.display_name}</h3>
+                    <p style="color: var(--text-light); margin-bottom: 20px;">@${user.username}</p>
+                    
+                    <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 20px;">
+                        <div style="text-align: center;">
+                            <div style="font-weight: 600; font-size: 18px;">${user.posts_count}</div>
+                            <div style="font-size: 12px; color: var(--text-light);">پست</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-weight: 600; font-size: 18px;">${user.followers_count}</div>
+                            <div style="font-size: 12px; color: var(--text-light);">دنبال‌کننده</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-weight: 600; font-size: 18px;">${user.following_count}</div>
+                            <div style="font-size: 12px; color: var(--text-light);">دنبال‌شونده</div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn ${user.username === currentUser ? 'btn-secondary' : 'btn-primary'}" 
+                            style="width: 100%; margin-bottom: 20px;"
+                            onclick="${user.username === currentUser ? 'showToast(\'این پروفایل شماست\', \'info\')' : `followUser('${user.username}')`}">
+                        ${user.username === currentUser ? 'ویرایش پروفایل' : 'دنبال کردن'}
+                    </button>
+                    
+                    <p style="text-align: right; margin-bottom: 20px;">${user.bio || 'بدون بیوگرافی'}</p>
+                </div>
+                ${postsHTML}
+            `;
+        }
+        
+        // ============ FOLLOW ============
+        function followUser(username, button = null) {
+            fetch(`/api/follow/${username}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ current_user: currentUser })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    if (button) {
+                        button.textContent = data.is_following ? 'دنبال شده' : 'دنبال کردن';
+                    }
+                    showToast(data.is_following ? `شما ${username} را دنبال کردید` : `شما ${username} را آنفالو کردید`, 'success');
+                }
+            })
+            .catch(error => {
+                console.error('Error following user:', error);
+                showToast('خطا در دنبال کردن', 'error');
+            });
+        }
+        
+        // ============ SEARCH ============
+        function searchUsers() {
+            const query = document.getElementById('globalSearch').value.trim();
+            const results = document.getElementById('searchResults');
+            
+            if (query.length < 2) {
+                results.style.display = 'none';
+                return;
+            }
+            
+            fetch(`/api/users/search?q=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        renderSearchResults(data.users);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error searching users:', error);
+                });
+        }
+        
+        function renderSearchResults(users) {
+            const results = document.getElementById('searchResults');
+            
+            if (users.length === 0) {
+                results.innerHTML = '<div style="padding: 10px; color: var(--text-light);">کاربری یافت نشد</div>';
+                results.style.display = 'block';
+                return;
+            }
+            
+            let html = '';
+            users.forEach(user => {
+                html += `
+                    <div class="suggestion" style="padding: 10px; border-bottom: 1px solid var(--border); cursor: pointer;" 
+                         onclick="openProfile('${user.username}'); document.getElementById('globalSearch').value = ''; document.getElementById('searchResults').style.display = 'none';">
+                        <div class="suggestion-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="suggestion-info">
+                            <span class="suggestion-username">${user.display_name}</span>
+                            <span class="suggestion-desc">@${user.username}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            results.innerHTML = html;
+            results.style.display = 'block';
+        }
+        
+        // ============ NOTIFICATIONS ============
+        function showNotifications() {
+            showToast('اعلان‌ها به زودی اضافه می‌شوند', 'info');
+        }
+        
+        // ============ UTILITY FUNCTIONS ============
+        function showToast(message, type = 'info') {
+            // Remove existing toasts
+            document.querySelectorAll('.toast').forEach(toast => toast.remove());
+            
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <div class="toast-icon">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                </div>
+                <div class="toast-message">${message}</div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateY(-20px)';
+                    setTimeout(() => {
+                        if (toast.parentNode) {
+                            toast.parentNode.removeChild(toast);
+                        }
+                    }, 300);
+                }
+            }, 3000);
+        }
+        
+        function formatTimeAgo(date) {
+            const now = new Date();
+            const diffMs = now - date;
+            const diffSec = Math.floor(diffMs / 1000);
+            const diffMin = Math.floor(diffSec / 60);
+            const diffHour = Math.floor(diffMin / 60);
+            const diffDay = Math.floor(diffHour / 24);
+            
+            if (diffSec < 60) {
+                return 'همین الان';
+            } else if (diffMin < 60) {
+                return `${diffMin} دقیقه پیش`;
+            } else if (diffHour < 24) {
+                return `${diffHour} ساعت پیش`;
+            } else if (diffDay === 1) {
+                return 'دیروز';
+            } else if (diffDay < 7) {
+                return `${diffDay} روز پیش`;
+            } else if (diffDay < 30) {
+                return `${Math.floor(diffDay / 7)} هفته پیش`;
+            } else {
+                return date.toLocaleDateString('fa-IR');
+            }
+        }
+        
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+        
+        // Close search results when clicking outside
+        document.addEventListener('click', function(e) {
+            const searchBox = document.getElementById('globalSearch');
+            const results = document.getElementById('searchResults');
+            
+            if (searchBox && results && !searchBox.contains(e.target) && !results.contains(e.target)) {
+                results.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+              </html>
