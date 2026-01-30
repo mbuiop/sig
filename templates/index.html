@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InstaSocial - شبکه اجتماعی</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="app-container">
+        
+        <!-- Desktop Navigation Sidebar -->
+        <nav class="desktop-sidebar">
+            <div class="sidebar-inner">
+                <!-- Logo -->
+                <div class="sidebar-logo">
+                    <i class="fas fa-camera-retro"></i>
+                    <h1>InstaSocial</h1>
+                </div>
+                
+                <!-- Navigation Menu -->
+                <div class="sidebar-menu">
+                    <a href="#" class="menu-item active" data-page="home">
+                        <i class="fas fa-home"></i>
+                        <span>خانه</span>
+                    </a>
+                    
+                    <a href="#" class="menu-item" data-page="explore">
+                        <i class="fas fa-search"></i>
+                        <span>اکسپلور</span>
+                    </a>
+                    
+                    <a href="#" class="menu-item" data-page="messages">
+                        <i class="fas fa-comment-alt"></i>
+                        <span>پیام‌ها</span>
+                        <span class="badge" id="messageBadge">0</span>
+                    </a>
+                    
+                    <a href="#" class="menu-item" data-page="notifications">
+                        <i class="fas fa-heart"></i>
+                        <span>اعلان‌ها</span>
+                        <span class="badge" id="notificationBadge">0</span>
+                    </a>
+                    
+                    <a href="#" class="menu-item" data-page="create">
+                        <i class="fas fa-plus-square"></i>
+                        <span>ایجاد</span>
+                    </a>
+                    
+                    <a href="#" class="menu-item" data-page="profile">
+                        <i class="fas fa-user-circle"></i>
+                        <span>پروفایل</span>
+                    </a>
+                </div>
+                
+                <!-- User Section -->
+                <div class="sidebar-user">
+                    <div class="user-info">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="user-details">
+                            <input type="text" id="usernameInput" placeholder="نام کاربری" value="user1">
+                            <span class="user-status">آنلاین</span>
+                        </div>
+                    </div>
+                    <button class="btn-logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Stories Section -->
+            <section class="stories-section">
+                <div class="section-header">
+                    <h2>استوری‌ها</h2>
+                    <button class="btn-see-all">مشاهده همه</button>
+                </div>
+                <div class="stories-container">
+                    <div class="stories-list" id="storiesList">
+                        <!-- Stories will be loaded here -->
+                    </div>
+                    <button class="btn-add-story" id="addStoryBtn">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <input type="file" id="storyFileInput" accept="image/*,video/*" style="display: none;">
+                </div>
+            </section>
+
+            <!-- Feed Section -->
+            <section class="feed-section">
+                <div class="feed-container" id="feedContainer">
+                    <!-- Posts will be loaded here -->
+                </div>
+                <div class="loading-spinner" id="loadingSpinner">
+                    <div class="spinner"></div>
+                    <p>در حال بارگذاری...</p>
+                </div>
+            </section>
+
+            <!-- Suggestions Sidebar (Right Sidebar) -->
+            <aside class="suggestions-sidebar">
+                <!-- Current User Profile -->
+                <div class="current-user-profile">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-info">
+                        <span class="profile-username" id="currentUsername">user1</span>
+                        <span class="profile-name">کاربر اینستاسوشال</span>
+                    </div>
+                    <button class="btn-switch">تغییر</button>
+                </div>
+
+                <!-- Suggestions for You -->
+                <div class="suggestions-box">
+                    <div class="suggestions-header">
+                        <span>پیشنهاد برای شما</span>
+                        <button class="btn-see-all">مشاهده همه</button>
+                    </div>
+                    <div class="suggestions-list" id="suggestionsList">
+                        <!-- Suggested users will appear here -->
+                    </div>
+                </div>
+
+                <!-- Create Post Button -->
+                <div class="create-post-sidebar">
+                    <button class="btn-create-post" id="createPostBtn">
+                        <i class="fas fa-plus"></i>
+                        <span>ایجاد پست جدید</span>
+                    </button>
+                    <input type="file" id="postFileInput" accept="image/*" style="display: none;">
+                </div>
+
+                <!-- Footer Links -->
+                <div class="sidebar-footer">
+                    <div class="footer-links">
+                        <a href="#">درباره</a>
+                        <a href="#">راهنما</a>
+                        <a href="#">حریم خصوصی</a>
+                        <a href="#">قوانین</a>
+                        <a href="#">موقعیت‌ها</a>
+                        <a href="#">زبان</a>
+                    </div>
+                    <div class="copyright">
+                        © 2024 InstaSocial
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Bottom Navigation (Mobile) -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active" data-page="home">
+                <i class="fas fa-home"></i>
+                <span>خانه</span>
+            </a>
+            <a href="#" class="nav-item" data-page="explore">
+                <i class="fas fa-search"></i>
+                <span>اکسپلور</span>
+            </a>
+            <a href="#" class="nav-item" data-page="create">
+                <i class="fas fa-plus-square"></i>
+                <span>ایجاد</span>
+            </a>
+            <a href="#" class="nav-item" data-page="notifications">
+                <i class="fas fa-heart"></i>
+                <span>اعلان‌ها</span>
+            </a>
+            <a href="#" class="nav-item" data-page="profile">
+                <i class="fas fa-user"></i>
+                <span>پروفایل</span>
+            </a>
+        </nav>
+
+        <!-- Create Post Modal -->
+        <div class="modal" id="createPostModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>ایجاد پست جدید</h3>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="post-creation">
+                        <div class="post-upload-area" id="postUploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>عکس یا ویدیو را اینجا رها کنید یا کلیک کنید</p>
+                            <button class="btn-select-file">انتخاب فایل</button>
+                            <input type="file" id="modalPostFileInput" accept="image/*,video/*" multiple>
+                        </div>
+                        <div class="post-preview" id="modalPostPreview"></div>
+                        <div class="post-caption">
+                            <textarea id="modalPostCaption" placeholder="کپشن بنویسید..."></textarea>
+                            <div class="caption-options">
+                                <button class="option-btn"><i class="fas fa-smile"></i></button>
+                                <button class="option-btn"><i class="fas fa-map-marker-alt"></i></button>
+                                <button class="option-btn"><i class="fas fa-user-tag"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel">لغو</button>
+                    <button class="btn-primary" id="submitPostBtn">اشتراک‌گذاری</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Modal -->
+        <div class="modal" id="chatModal">
+            <div class="modal-content chat-modal">
+                <div class="modal-header">
+                    <div class="chat-header">
+                        <button class="back-to-inbox">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                        <div class="chat-user-info">
+                            <div class="user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <h4 id="chatUserName">کاربر</h4>
+                                <span class="user-status">آنلاین</span>
+                            </div>
+                        </div>
+                        <div class="chat-actions">
+                            <button><i class="fas fa-phone"></i></button>
+                            <button><i class="fas fa-video"></i></button>
+                            <button><i class="fas fa-info-circle"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="chat-messages" id="chatMessages">
+                        <!-- Messages will appear here -->
+                    </div>
+                    <div class="chat-input-container">
+                        <div class="typing-indicator" id="typingIndicator">
+                            <span id="typingUser"></span> در حال تایپ است...
+                        </div>
+                        <div class="chat-input">
+                            <button class="btn-attach"><i class="fas fa-paperclip"></i></button>
+                            <input type="text" id="chatMessageInput" placeholder="پیام...">
+                            <button class="btn-emoji"><i class="fas fa-smile"></i></button>
+                            <button class="btn-send" id="sendMessageBtn"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Explore Page -->
+        <div class="page-container" id="explorePage" style="display: none;">
+            <div class="page-header">
+                <h2>اکسپلور</h2>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="جستجو...">
+                </div>
+            </div>
+            <div class="explore-grid" id="exploreGrid">
+                <!-- Explore content will appear here -->
+            </div>
+        </div>
+
+        <!-- Messages Page -->
+        <div class="page-container" id="messagesPage" style="display: none;">
+            <div class="page-header">
+                <h2>پیام‌ها</h2>
+                <button class="btn-new-message"><i class="fas fa-edit"></i></button>
+            </div>
+            <div class="messages-list" id="messagesList">
+                <!-- Conversations will appear here -->
+            </div>
+        </div>
+
+        <!-- Notifications Page -->
+        <div class="page-container" id="notificationsPage" style="display: none;">
+            <div class="page-header">
+                <h2>اعلان‌ها</h2>
+            </div>
+            <div class="notifications-list" id="notificationsList">
+                <!-- Notifications will appear here -->
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div class="page-container" id="profilePage" style="display: none;">
+            <div class="profile-header">
+                <div class="profile-info">
+                    <div class="profile-avatar-large">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-stats">
+                        <h2 id="profileUsername">user1</h2>
+                        <div class="stats">
+                            <div class="stat">
+                                <span class="count">0</span>
+                                <span class="label">پست</span>
+                            </div>
+                            <div class="stat">
+                                <span class="count">0</span>
+                                <span class="label">دنبال‌کننده</span>
+                            </div>
+                            <div class="stat">
+                                <span class="count">0</span>
+                                <span class="label">دنبال‌شونده</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-actions">
+                    <button class="btn-edit-profile">ویرایش پروفایل</button>
+                    <button class="btn-settings"><i class="fas fa-cog"></i></button>
+                </div>
+            </div>
+            <div class="profile-tabs">
+                <button class="tab-btn active" data-tab="posts"><i class="fas fa-th"></i></button>
+                <button class="tab-btn" data-tab="saved"><i class="far fa-bookmark"></i></button>
+                <button class="tab-btn" data-tab="tagged"><i class="far fa-user"></i></button>
+            </div>
+            <div class="profile-posts" id="profilePosts">
+                <!-- User posts will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+                                  </html>
